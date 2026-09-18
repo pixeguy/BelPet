@@ -42,6 +42,17 @@ Pre-built versions of BelPet are available under **Releases**.
 
 Due to Spotify's development user restrictions, the pre-built version's Spotify functionality may only work for accounts that have been authorized on my Spotify Developer application.
 
+## Getting Started
+
+To start using BelPet with Spotify, you will need another Spotify device, such as the Spotify desktop app, mobile app, or Web Player.
+
+Start playing a song on any of these devices, then either:
+
+- Leave the song playing and BelPet will display and control the currently active Spotify device.
+- Transfer playback to **PixePet** from Spotify's device selection menu to use BelPet itself as the active playback device.
+
+BelPet cannot start playback on its own if there is no active Spotify session, so make sure Spotify is already active on another device first.
+
 ## Controls
 
 | Action | Control |
