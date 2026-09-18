@@ -1,65 +1,65 @@
 # BelPet
 
-BelPet is a small Windows desktop pet built with **Godot 4 and C#**, featuring integrated Spotify playback controls.
-
-Bel sits on your desktop as a transparent, always-on-top companion and lets you control Spotify without opening the Spotify window.
+Bel is a small desktop pet that just chills and plays spotify songs for you :D 
 
 ## Features
 
-- 🎵 Spotify playback integration
-- ⏯️ Play and pause music
-- ⏭️ Skip and return to tracks
-- 🔊 Scroll on Bel to control Spotify volume
-- 💿 Displays the currently playing album artwork
-- ⭕ Seek through the current song using the album progress ring
-- 🖱️ Drag Bel around your desktop
-- 🌍 Falls and rests above the Windows taskbar
-- 🪟 Transparent desktop window with click-through areas
-- 🌊 Animated volume visualization on Bel
+- Spotify playback integration
+- Play and pause music
+- Skip and return to tracks
+- Scroll on Bel to control Spotify volume
+- Skip to different parts of the song
+- Drag Bel around your desktop
 
 ## Built With
 
-- **Godot 4**
-- **C# / .NET**
+- **Godot 4 (C#)**
 - **Spotify Web API**
 - **Spotify Web Playback SDK**
-- **godot_wry / WebView2**
+- **godot_wry**
+
+## Spotify Limitations
+
+Due to Spotify's API development restrictions, Spotify integration is currently limited to authorized users added to the application's Spotify Developer account.
+
+Since public users are not authorized on my Spotify Developer application, the Spotify features in the pre-built version of BelPet will probably not work for other users.
+
+The current workaround is to create your own Spotify application through the Spotify Developer Dashboard and use your own Client ID.
+
+## Using Your Own Client ID
+
+1. Create your own application through the Spotify Developer Dashboard at https://developer.spotify.com.
+2. Copy the Client ID provided by Spotify.
+3. Open `SpotifyAuth.cs`.
+4. Replace the existing `clientId` with your own Client ID.
+5. Build and run the project.
+
+BelPet should then authenticate through your own Spotify application instead.
 
 ## Download
 
-A pre-built Windows version is available from the **Releases** section.
+Pre-built versions of BelPet are available under **Releases**.
 
-Download the latest `BelPet-Windows.zip`, extract the folder, and run:
-
-`BelPet.exe`
-
-> Spotify Premium is required for Spotify Web Playback SDK functionality.
+Due to Spotify's development user restrictions, the pre-built version's Spotify functionality may only work for accounts that have been authorized on my Spotify Developer application.
 
 ## Controls
 
 | Action | Control |
 | --- | --- |
-| Move Bel | Click and drag |
+| Move Bel | Click and drag Bel |
 | Volume | Scroll over Bel |
 | Play / Pause | Click album artwork |
-| Seek | Drag around the progress ring |
-| Previous Track | Left button |
-| Next Track | Right button |
+| Seek | Click around the progress ring |
+| Previous Track | Left side button |
+| Next Track | Right side button |
 
 ## How It Works
 
 BelPet combines Spotify's Web API with the Web Playback SDK to act as a Spotify Connect playback device.
 
-The application uses a transparent native Godot window with custom mouse passthrough regions, allowing clicks outside of Bel's interactive areas to continue through to the desktop.
+When BelPet is the active Spotify player, playback state and controls are handled directly through the Web Playback SDK.
 
-## Running From Source
-
-1. Clone this repository.
-2. Open the project using the .NET version of Godot 4.
-3. Build the C# project.
-4. Run the project from Godot.
-
-Spotify authentication must be configured before Spotify functionality can be used.
+When another Spotify device is active instead, BelPet switches to a polling system that periodically calls the Spotify Web API to retrieve the current track, playback progress, volume, and playback state. This allows BelPet's UI to stay mostly synchronized even when music is playing from another device.
 
 ## License
 
