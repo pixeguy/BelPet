@@ -20,13 +20,23 @@ Bel is a small desktop pet that just chills and plays spotify songs for you :D
 
 ## Spotify Limitations
 
-Due to Spotify's API development restrictions, Spotify integration is currently limited to authorized users added to the application's Spotify Developer account.
+> **Spotify Premium is required to use BelPet.** This is required regardless of whether BelPet or another device is the active Spotify player.
 
-Since public users are not authorized on my Spotify Developer application, the Spotify features in the pre-built version of BelPet will probably not work for other users.
+BelPet has been tested with multiple Spotify Premium accounts. All Spotify functionality works when **BelPet is selected as the active Spotify playback device**.
 
-The current workaround is to create your own Spotify application through the Spotify Developer Dashboard and use your own Client ID.
+However, due to Spotify's API development restrictions, BelPet will not be able to access or control playback when **another Spotify device is active**.
+
+If you want BelPet to work while another device, such as your phone, desktop app, or Web Player, is the active player, you can create your own Spotify application and use your own Client ID.
+
+BelPet was designed to support this and can monitor and control playback even when it is not the active player. However, this functionality uses the Spotify Web API, which means the Spotify account must be added as an authorized user of my developer application. Since I cannot manually authorize every person who downloads BelPet, the public build cannot provide this functionality for everyone.
+
+Using your own Spotify application and Client ID avoids this issue, as you can authorize your own Spotify account for your application.
+
+> **Note:** BelPet has only been tested with a very small number of Spotify accounts. Spotify also imposes limits on applications in Development Mode, so I cannot guarantee that the pre-built version will work for every account.
 
 ## Using Your Own Client ID
+
+If BelPet does not work with your account, or you want to use BelPet while another Spotify device is the active player:
 
 1. Create your own application through the Spotify Developer Dashboard at https://developer.spotify.com.
 2. Copy the Client ID provided by Spotify.
@@ -34,22 +44,21 @@ The current workaround is to create your own Spotify application through the Spo
 4. Replace the existing `clientId` with your own Client ID.
 5. Build and run the project.
 
-BelPet should then authenticate through your own Spotify application instead.
+BelPet will then authenticate using your own Spotify application instead.
 
 ## Download
 
 Pre-built versions of BelPet are available under **Releases**.
 
-Due to Spotify's development user restrictions, the pre-built version's Spotify functionality may only work for accounts that have been authorized on my Spotify Developer application.
+For the simplest setup, use **BelPet as your active Spotify playback device**. Using BelPet to monitor or control playback from another active Spotify device may require your own Spotify Client ID.
 
 ## Getting Started
 
-To start using BelPet with Spotify, you will need another Spotify device, such as the Spotify desktop app, mobile app, or Web Player.
+To start using BelPet, first open Spotify on another device, such as the desktop app, mobile app, or Web Player.
 
-Start playing a song on any of these devices, then either:
+Start playing a song, then open Spotify's device selection menu and transfer playback to **BelPet**.
 
-- Leave the song playing and BelPet will display and control the currently active Spotify device.
-- Transfer playback to **PixePet** from Spotify's device selection menu to use BelPet itself as the active playback device.
+Once BelPet is the active playback device, BelPet will be able to access all of its functionalities.
 
 BelPet cannot start playback on its own if there is no active Spotify session, so make sure Spotify is already active on another device first.
 
