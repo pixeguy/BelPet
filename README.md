@@ -1,7 +1,7 @@
 # BelPet
 
 Bel is a small desktop pet that just chills and plays spotify songs for you :D 
-![BelPet Demo](Images/belpet-demo.png)
+![BelPet Demo](BannerImage/RepoBanner.png)
 
 ## Features
 
