@@ -63,4 +63,4 @@ When another Spotify device is active instead, BelPet switches to a polling syst
 
 ## License
 
-This project is currently provided primarily as a personal/portfolio project.
+This project is licensed under the MIT License. See the `LICENSE` file for details.
