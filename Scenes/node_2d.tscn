@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dftflattoxpqi"]
+
+[ext_resource type="Script" uid="uid://duoug64sqvdfl" path="res://Scripts/SpotifyManager.cs" id="2_6whob"]
+[ext_resource type="Script" uid="uid://cxu1n4xqsjj2s" path="res://Scripts/LocalWebServer.cs" id="2_v1qfn"]
+[ext_resource type="Script" uid="uid://ccwom6mbgslr1" path="res://Scripts/SpotifyAuth.cs" id="3_hh5uf"]
+
+[node name="Node2D" type="Node2D" unique_id=1267874013]
+
+[node name="SpotifyManager" type="Node" parent="." unique_id=1476597390 node_paths=PackedStringArray("server", "auth", "webView")]
+script = ExtResource("2_6whob")
+server = NodePath("WebServer")
+auth = NodePath("SpotifyAuth")
+webView = NodePath("WebView")
+
+[node name="WebServer" type="Node" parent="SpotifyManager" unique_id=1816214820]
+script = ExtResource("2_v1qfn")
+
+[node name="SpotifyAuth" type="Node" parent="SpotifyManager" unique_id=2017715529]
+script = ExtResource("3_hh5uf")
+
+[node name="WebView" type="WebView" parent="SpotifyManager" unique_id=49152115]
+offset_right = 40.0
+offset_bottom = 40.0

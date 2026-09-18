@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+
+    <script>
+        let accessToken = null;
+        let spotifySDKReady = false;
+        let player = null;
+
+        // Spotify calls this automatically once its SDK has loaded.
+        window.onSpotifyWebPlaybackSDKReady = () => {
+            spotifySDKReady = true;
+            TryCreatePlayer();
+        };
+
+        // Godot will call this and give JavaScript the access token.
+        function setAccessToken(token) {
+            accessToken = token;
+            TryCreatePlayer();
+        }
+
+        function sendCurrentVolume() {
+            if (player == null)
+                return;
+
+            player.getVolume().then(volume => {
+                window.ipc.postMessage(JSON.stringify({
+                    type: "volume",
+                    volume: volume
+                }));
+            });
+        }
+
+        function nextTrack() {
+            if (player == null)
+                return;
+
+            player.nextTrack();
+        }
+
+        function previousTrack() {
+            if (player == null)
+                return;
+
+            player.previousTrack();
+        }
+
+        function togglePlay() {
+            if (player == null)
+                return;
+
+            player.togglePlay();
+        }
+
+        function seek(positionMs) {
+            if (player == null)
+                return;
+
+            player.seek(positionMs);
+        }
+
+        function setVolume(volume) {
+            if (player == null)
+                return;
+
+            player.setVolume(volume);
+        }
+
+        function TryCreatePlayer() {
+
+            // We need BOTH before creating the player.
+            if (!spotifySDKReady || !accessToken) {
+                return;
+            }
+
+            // Don't accidentally create it twice.
+            if (player != null) {
+                return;
+            }
+
+            player = new Spotify.Player({
+                name: "BelPet",
+
+                getOAuthToken: cb => {
+                    cb(accessToken);
+                },
+
+                volume: 0.5
+            });
+
+            player.addListener("ready", ({ device_id }) => {
+                window.ipc.postMessage(JSON.stringify({
+                    type: "player_ready",
+                    deviceId: device_id
+                }));
+            });
+
+            let currentTrackId = null;
+            let isPlayerActive = false;
+
+            player.addListener("player_state_changed", state => {
+
+                if (!state) {
+                    if (isPlayerActive) {
+                        isPlayerActive = false;
+
+                        window.ipc.postMessage(JSON.stringify({
+                            type: "player_inactive"
+                        }));
+                    }
+
+                    return;
+                }
+
+                if (!isPlayerActive) {
+                    isPlayerActive = true;
+
+                    window.ipc.postMessage(JSON.stringify({
+                        type: "player_active"
+                    }));
+                }
+
+
+                window.ipc.postMessage(JSON.stringify({
+                    type: "playback_state",
+                    position: state.position,
+                    duration: state.duration,
+                    paused: state.paused
+                }));
+
+
+                const track = state.track_window.current_track;
+
+                if (track.id == currentTrackId) {
+                    return;
+                }
+
+                currentTrackId = track.id;
+
+                window.ipc.postMessage(JSON.stringify({
+                    type: "track_changed",
+                    trackId: track.id,
+                    imageUrl: track.album.images[0].url
+                }));
+            });
+
+            setInterval(() => {
+                if (isPlayerActive) {
+                    sendCurrentVolume();
+                }
+            }, 250);
+
+            player.addListener("authentication_error", ({ message }) => {
+                console.error("Authentication error: " + message);
+            });
+
+            player.addListener("account_error", ({ message }) => {
+                console.error("Account error: " + message);
+            });
+
+            player.addListener("playback_error", ({ message }) => {
+                console.error("Playback error: " + message);
+            });
+
+            player.connect();
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,210 @@
+[gd_scene format=3 uid="uid://cqjg527odtv4m"]
+
+[ext_resource type="Script" uid="uid://cdrwvo5oexvl7" path="res://Scripts/DesktopPet.cs" id="1_nrxip"]
+[ext_resource type="Script" uid="uid://cwtbmfurhwcci" path="res://Scripts/SongUiManager.cs" id="2_8vcpu"]
+[ext_resource type="Shader" uid="uid://dk6gh5en1265y" path="res://Scripts/CircularMask.gdshader" id="2_xbos8"]
+[ext_resource type="Script" uid="uid://duoug64sqvdfl" path="res://Scripts/SpotifyManager.cs" id="3_0lldo"]
+[ext_resource type="Texture2D" uid="uid://cocwfv2agbvba" path="res://Assets/PixePetAvatar.png" id="3_dlhar"]
+[ext_resource type="Texture2D" uid="uid://c1gvne4gv3jbl" path="res://Assets/PixePetAvatarGrabbed.png" id="3_x2egv"]
+[ext_resource type="Texture2D" uid="uid://d4kcki2hbn2g" path="res://Assets/SpotifyBackCircle.png" id="4_0mq1n"]
+[ext_resource type="Script" uid="uid://cxu1n4xqsjj2s" path="res://Scripts/LocalWebServer.cs" id="4_2xxpo"]
+[ext_resource type="Script" uid="uid://bxyl8evebnuxd" path="res://Scripts/SongImgBtn.cs" id="5_0bbc2"]
+[ext_resource type="Shader" uid="uid://bewwr0djf1tq2" path="res://Scripts/RingMask.gdshader" id="5_6ochr"]
+[ext_resource type="Texture2D" uid="uid://dhdds0imk3dxo" path="res://Assets/SpotifyFrontCircle.png" id="5_8vcpu"]
+[ext_resource type="Script" uid="uid://ccwom6mbgslr1" path="res://Scripts/SpotifyAuth.cs" id="5_o4fxr"]
+[ext_resource type="Script" uid="uid://bi8bepvfvaucw" path="res://Scripts/SpotifyAPI.cs" id="6_2xxpo"]
+[ext_resource type="Texture2D" uid="uid://cpx4qmb31ww04" path="res://Assets/SpotifyLogo.png" id="6_x2egv"]
+[ext_resource type="Script" uid="uid://8uo3be708ek2" path="res://Scripts/SongProgressUi.cs" id="8_d3l0d"]
+[ext_resource type="Texture2D" uid="uid://pvme4ao41nbg" path="res://Assets/PlayLogo.png" id="10_eh56l"]
+[ext_resource type="Texture2D" uid="uid://bnor0nwqqckai" path="res://Assets/PauseLogo.png" id="11_hw2g2"]
+[ext_resource type="Texture2D" uid="uid://d3w0xh47pcbci" path="res://Assets/SideButton.png" id="12_2ehk2"]
+[ext_resource type="Shader" uid="uid://b824u0aarou7r" path="res://Scripts/PetVolume.gdshader" id="12_hw2g2"]
+[ext_resource type="Script" uid="uid://dhmd1rklroadm" path="res://Scripts/MovingBtn.cs" id="13_hh8xe"]
+[ext_resource type="Script" uid="uid://bam1pllra07mv" path="res://Scripts/VolumeText.cs" id="16_ah0px"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o4fxr"]
+shader = ExtResource("2_xbos8")
+shader_parameter/zoom = 1.0
+
+[sub_resource type="BitMap" id="BitMap_ctk7o"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8vcpu"]
+shader = ExtResource("5_6ochr")
+shader_parameter/ring_thickness = 0.04000000120148
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eh56l"]
+shader = ExtResource("12_hw2g2")
+shader_parameter/fill_amount = 0.4550000216125
+shader_parameter/fill_color = Color(0.11372549, 0.7254902, 0.32941177, 1)
+shader_parameter/white_threshold = 1.0
+shader_parameter/wave_height = 0.0250000011875
+shader_parameter/wave_speed = 1.50000007125
+shader_parameter/edge_snap = 0.010000000475
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5aq4s"]
+size = Vector2(88.66667, 102.333336)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5hmtp"]
+size = Vector2(50, 50)
+
+[node name="2DScene" type="Node2D" unique_id=1139491649 node_paths=PackedStringArray("renderCollider", "dragCollider", "spotify", "songUi", "volumeLabel", "petSprite")]
+script = ExtResource("1_nrxip")
+renderCollider = NodePath("Pet/RenderArea/CollisionShape2D")
+dragCollider = NodePath("Pet/DragArea/CollisionShape2D")
+spotify = NodePath("SpotifyManager")
+songUi = NodePath("Pet/SongUI")
+spotifyLogo = ExtResource("6_x2egv")
+normalSprite = ExtResource("3_dlhar")
+grabbedSprite = ExtResource("3_x2egv")
+volumeLabel = NodePath("Pet/PetSprite/Label")
+petSprite = NodePath("Pet/PetSprite")
+
+[node name="Pet" type="Node2D" parent="." unique_id=1400318780]
+position = Vector2(235, 232)
+scale = Vector2(3, 3)
+
+[node name="SongUI" type="Node" parent="Pet" unique_id=1637292030 node_paths=PackedStringArray("songSprite", "songProgress", "progressUi", "songBtn", "nextSongBtn", "prevSongBtn")]
+script = ExtResource("2_8vcpu")
+songSprite = NodePath("SongImg")
+songProgress = NodePath("SongImg/TextureProgressBar")
+progressUi = NodePath("SongImg/TextureProgressBar")
+songBtn = NodePath("SongImg/TextureButton")
+nextSongBtn = NodePath("SongImg/NextButton")
+prevSongBtn = NodePath("SongImg/PrevButton")
+
+[node name="SongImg" type="TextureRect" parent="Pet/SongUI" unique_id=609291441 groups=["BlocksPetDragging"]]
+z_index = 2
+material = SubResource("ShaderMaterial_o4fxr")
+offset_left = 171.00002
+offset_top = 27.0
+offset_right = 299.0
+offset_bottom = 155.0
+scale = Vector2(1.318, 1.318)
+pivot_offset = Vector2(64, 64)
+texture = ExtResource("6_x2egv")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureButton" type="TextureButton" parent="Pet/SongUI/SongImg" unique_id=370053992 node_paths=PackedStringArray("playBtn", "pauseBtn") groups=["BlocksPetDragging"]]
+z_index = 1
+layout_mode = 0
+offset_left = -184.86192
+offset_top = -185.62065
+offset_right = 315.13806
+offset_bottom = 314.37933
+scale = Vector2(0.26, 0.26)
+pivot_offset = Vector2(250, 250)
+mouse_filter = 1
+texture_normal = ExtResource("5_8vcpu")
+texture_click_mask = SubResource("BitMap_ctk7o")
+script = ExtResource("5_0bbc2")
+playBtn = NodePath("PlaySprite")
+pauseBtn = NodePath("PauseSprite")
+
+[node name="PlaySprite" type="Sprite2D" parent="Pet/SongUI/SongImg/TextureButton" unique_id=447611629]
+z_index = 6
+position = Vector2(250, 250)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("10_eh56l")
+
+[node name="PauseSprite" type="Sprite2D" parent="Pet/SongUI/SongImg/TextureButton" unique_id=1419239499]
+z_index = 6
+position = Vector2(250, 250)
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("11_hw2g2")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Pet/SongUI/SongImg" unique_id=1636518483 groups=["BlocksPetDragging"]]
+z_index = 2
+material = SubResource("ShaderMaterial_8vcpu")
+layout_mode = 0
+offset_left = -185.30002
+offset_top = -185.3
+offset_right = 314.69998
+offset_bottom = 314.7
+scale = Vector2(0.273, 0.273)
+pivot_offset = Vector2(250, 250)
+mouse_filter = 0
+step = 0.001
+fill_mode = 4
+texture_under = ExtResource("4_0mq1n")
+texture_progress = ExtResource("5_8vcpu")
+script = ExtResource("8_d3l0d")
+
+[node name="NextButton" type="Button" parent="Pet/SongUI/SongImg" unique_id=1168320731 groups=["BlocksPetDragging"]]
+layout_mode = 0
+offset_left = -167.15
+offset_top = -137.062
+offset_right = 457.85
+offset_bottom = 266.938
+scale = Vector2(0.035, 0.035)
+pivot_offset = Vector2(312.5, 202)
+icon = ExtResource("12_2ehk2")
+flat = true
+script = ExtResource("13_hh8xe")
+direction = 1
+moveDistance = 4.0
+
+[node name="PrevButton" type="Button" parent="Pet/SongUI/SongImg" unique_id=841874419 groups=["BlocksPetDragging"]]
+layout_mode = 0
+offset_left = -329.77847
+offset_top = -137.06223
+offset_right = 295.22153
+offset_bottom = 266.93777
+scale = Vector2(-0.035, 0.035)
+pivot_offset = Vector2(312.5, 202)
+icon = ExtResource("12_2ehk2")
+flat = true
+script = ExtResource("13_hh8xe")
+moveDistance = 4.0
+
+[node name="PetSprite" type="Sprite2D" parent="Pet" unique_id=1584782453]
+z_index = 5
+z_as_relative = false
+material = SubResource("ShaderMaterial_eh56l")
+texture = ExtResource("3_dlhar")
+
+[node name="Label" type="Label" parent="Pet/PetSprite" unique_id=401422356]
+modulate = Color(0, 0, 0, 0.6039216)
+self_modulate = Color(0.11372549, 0.7254902, 0.32941177, 1)
+offset_left = -19.333334
+offset_top = -6.333333
+offset_right = 20.666666
+offset_bottom = 16.666668
+scale = Vector2(0.235, 0.235)
+pivot_offset = Vector2(20, 11.5)
+text = "12%"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("16_ah0px")
+
+[node name="RenderArea" type="Area2D" parent="Pet" unique_id=1902739817]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pet/RenderArea" unique_id=1841287066]
+position = Vector2(0.33333588, -26.167004)
+shape = SubResource("RectangleShape2D_5aq4s")
+
+[node name="DragArea" type="Area2D" parent="Pet" unique_id=1066422864]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pet/DragArea" unique_id=2031305311]
+shape = SubResource("RectangleShape2D_5hmtp")
+
+[node name="SpotifyManager" type="Node" parent="." unique_id=1619307896 node_paths=PackedStringArray("server", "auth", "api", "webView")]
+script = ExtResource("3_0lldo")
+server = NodePath("WebServer")
+auth = NodePath("SpotifyAuth")
+api = NodePath("SpotifyAPI")
+webView = NodePath("WebView")
+
+[node name="WebServer" type="Node" parent="SpotifyManager" unique_id=1532895932]
+script = ExtResource("4_2xxpo")
+
+[node name="SpotifyAuth" type="Node" parent="SpotifyManager" unique_id=2005968894]
+script = ExtResource("5_o4fxr")
+
+[node name="WebView" type="WebView" parent="SpotifyManager" unique_id=2118277131]
+url = "nevhttps://github.com/doceazedo/godot_wry"
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SpotifyAPI" type="Node" parent="SpotifyManager" unique_id=1954258494]
+script = ExtResource("6_2xxpo")
